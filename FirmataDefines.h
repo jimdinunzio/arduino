@@ -128,6 +128,11 @@
 #endif
 #define ONEWIRE_DATA            firmata::ONEWIRE_DATA // send an OneWire read/write/reset/select/skip/search request
 
+#ifdef PULSE_IN
+#undef PULSE_IN
+#endif
+#define PULSE_IN				firmata::PULSE_IN // send a pulse in command
+
 #ifdef SHIFT_DATA
 #undef SHIFT_DATA
 #endif

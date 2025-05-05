@@ -693,7 +693,7 @@ void sysexCallback(byte command, byte argc, byte *argv)
       serialFeature.handleSysex(command, argc, argv);
 #endif
       break;
-	case PULSE_IN:{
+    case PULSE_IN:{
       byte pulseDurationArray[4] = {
         (argv[2] & 0x7F) | ((argv[3] & 0x7F) << 7)
        ,(argv[4] & 0x7F) | ((argv[5] & 0x7F) << 7)
