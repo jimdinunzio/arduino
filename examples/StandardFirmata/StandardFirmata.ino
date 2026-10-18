@@ -159,7 +159,7 @@ void detachServo(byte pin)
   interrupts();
   // if we're detaching the last servo, decrement the count
   // otherwise store the index of the detached servo
-  if (servoPinMap[pin] == servoCount && servoCount > 0) {
+  if (servoPinMap[pin] == servoCount - 1 && servoCount > 0) {
     servoCount--;
   } else if (servoCount > 0) {
     // keep track of detached servos because we want to reuse their indexes
