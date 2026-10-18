@@ -143,7 +143,20 @@ void attachServo(byte pin, int minPulse, int maxPulse)
 
 void detachServo(byte pin)
 {
+  // Detach only in the gap between pulses, then hold the line low. The Servo
+  // ISR only ends pulses on attached channels, so detaching mid-pulse would
+  // leave the line high and drive the servo to an end stop. With interrupts
+  // off the ISR cannot start a pulse between the check and the detach.
+  byte digitalPin = PIN_TO_DIGITAL(pin);
+  unsigned long start = micros();
+  for (;;) {
+    noInterrupts();
+    if (digitalRead(digitalPin) == LOW || micros() - start > 25000UL) break;
+    interrupts();
+  }
   servos[servoPinMap[pin]].detach();
+  digitalWrite(digitalPin, LOW);
+  interrupts();
   // if we're detaching the last servo, decrement the count
   // otherwise store the index of the detached servo
   if (servoPinMap[pin] == servoCount && servoCount > 0) {
